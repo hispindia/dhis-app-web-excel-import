@@ -1,0 +1,424 @@
+html,body{height:100%;}
+h1 {    
+    font-size: 1.8em;
+}
+
+h2 {
+    font-size: 1.6em;    
+}
+
+h3 {
+    font-size: 1.2em;    
+}
+
+h4 {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+div#leftBar {
+    width: 236px;
+}
+
+div#orgUnitTree {
+    height: 50%;
+}
+
+.heading-title {
+    font-size: 16pt;
+    font-weight: normal;
+    color: #585D61;
+}
+
+.mouse-pointer {    
+    cursor: pointer;
+}
+
+.clear {
+    clear: both;
+}
+
+input[type=text],input[type=number],input[type=password],input[type=email],textarea
+{
+    padding: 6px 12px !important;
+}
+
+
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.horizonal-spacing{
+    margin-left: 10px;    
+    margin-right: 10px;    
+}
+
+.horizonal-line {
+    width: 100%;
+    height: 5px;
+    background-color: black;
+}
+
+.row-with-margin {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.vertical-spacing{
+    margin-top: 10px;   
+    margin-bottom: 10px;
+}
+
+.small-horizonal-spacing{
+    margin-left: 5px;    
+}
+
+.small-vertical-spacing{
+    margin-top: 5px;    
+}
+
+.small-padding {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.remove-default-padding {
+    margin: -15px !important;    
+}
+
+.add-default-padding {
+    margin: 15px !important;
+}
+.add-default-top-margin {
+    margin-top: 15px !important;    
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+.excel-table{
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+.excel-table-header {    
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+.excel-table::-webkit-scrollbar 
+{
+    width: 20px;
+    height: 20px;
+    margin: 20px;
+    padding: 20px;
+}
+
+.excel-cell-invalid{
+    color: red;
+    font-weight: bold;
+}
+
+.form-control-filter{
+    height: 30px;
+    font-size: 14px;
+    line-height: 1.0;
+    color: #555;
+    vertical-align: middle;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
+}
+
+
+.excel-grid {
+    width: 90%;
+    height: 500px;
+}
+
+.bordered-div {
+    border: 1px solid #c2c2c2;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 500px;
+    overflow: scroll;
+}
+
+@media print {
+    #header, #leftBar, .not-printable {
+        display: none;
+    }
+}
+
+#logo
+{
+	position:absolute;
+	width:500px;
+	height:500px;
+	background: url("../images/logo.jpg");
+	top:50%;
+	left:50%;
+	margin-top:-250px;
+	margin-left: -450px;
+	background-size: 100% 100%;
+	cursor:pointer;
+}
+
+#buttonsHolder
+{
+	position:absolute;
+	width:400px;
+	height:300px;
+	top:50%;
+	left:50%;
+	margin-top:-300px;
+	padding-top:120px;
+}
+
+.selButton
+{
+	width:400px;
+	height:50px;
+	background:#eee;
+	border-radius:10px;	
+	margin:30px;
+	color:#bbb;
+	font-family:verdana;
+	font-weight:bold;
+	font-size:20px;
+	text-align:center;
+	padding-top:10px;
+	cursor:pointer;
+	box-shadow: 0 0 20px #ccc;
+	text-decoration: none;
+	text-shadow: 0px -1px 1px #ccc, 1px 1px 1px white;
+	border-left:5px solid #bbb;
+	border-right:5px solid #bbb;
+}
+
+.selButton:hover , .active
+{
+	color:#83d244;
+	border-left:5px solid #83d244;
+	border-right:5px solid #83d244;
+	color: #009900;border-left:5px solid #009900;border-right:5px solid #009900;
+}
+
+@-webkit-keyframes example {
+	from {color: #009900;border-left:5px solid #009900;border-right:5px solid #009900;}
+    to {color: #00FF33;border-left:5px solid #00FF33;border-right:5px solid #00FF33;}
+}
+
+@keyframes example {
+    from {color: #009900;border-left:5px solid #009900;border-right:5px solid #009900;}
+    to {color: #00FF33;border-left:5px solid #00FF33;border-right:5px solid #00FF33;}
+}
+
+.selButton:active
+{
+	color:#00FF00;
+	border-left:5px solid #00FF00;
+	border-right:5px solid #00FF00;
+}
+
+#content
+{
+	display:none;
+	position: absolute;
+	left: 450px;
+	top: 50%;
+	margin-top:-200px;
+	width:685px;
+}
+
+.contentPart
+{
+	height:150px;
+	background:#efefef;
+	border-radius:10px;
+	padding:30px 70px 30px 70px;
+}
+
+#footer
+{
+	position:fixed;
+	bottom:0;
+	left:0;
+	width:0;
+	height:0;
+	margin:0;
+	padding:0;
+	background:#787878;
+	height:40px;
+	width:100%;
+	border-top:5px solid #339933;
+}
+
+.input-group-addon
+{
+	min-width:200px;
+	font-weight:bold;
+	font-family:verdana;
+}
+
+.disabled
+{
+  pointer-events: none;
+  opacity: 0.5;
+  background: #CCC;
+}
+
+	#loading
+	{
+		position:fixed;
+		top:0;
+		left:0;
+		width:100%;
+		height:100%;
+		background:rgba(0,0,0,0.5);
+		z-index:4500;
+		padding:0;
+		margin:0;
+		display:none;
+	}
+	
+	#resultModal
+	{
+		position:fixed;
+		top:0;
+		left:0;
+		width:100%;
+		height:100%;
+		background:rgba(0,0,0,0.5);
+		z-index:4500;
+		padding:0;
+		margin:0;
+	}
+	
+	
+	.mheader
+	{
+		position:fixed;
+		height:40px;
+		background : #ddd;
+		border-radius : 10px 10px 0 0;
+		text-align : center;
+		padding-top:10px;
+		z-index:5000;
+		top:20px;
+	}
+	.mbody {
+		max-width:900;
+		overflow:auto;
+		position:fixed;
+		height:500px;
+		background : #fff;
+		padding-top:10px;
+		z-index:5000;
+		top:60px;
+	}
+	
+	.mfooter
+	{
+		position:fixed;
+		height:55px;
+		background : #eee;
+		border-radius : 0 0 10px 10px;
+		text-align : right;
+		padding-top:10px;
+		z-index:5000;
+		top:560px;
+	}
+	
+	.coverLoad
+	{
+		max-width:900;
+		overflow:auto;
+		position:fixed;
+		height:500px;
+		background : #fff;
+		padding-top:10px;
+		z-index:6000;
+		top:60px;
+		background: rgba(0,0,0,0.5)
+	}
+
+	.loadImage
+	{
+		width:100px;
+		height:100px;
+		position:fixed;
+		top:50%;
+		left:50%;
+		margin-top:-70px;
+		margin-left:-50px;
+		z-index:7000;
+	}
+	
+	.loadImageBig
+	{
+		width:150px;
+		height:150px;
+		position:fixed;
+		top:50%;
+		left:50%;
+		margin-top:-75px;
+		margin-left:-75px;
+		z-index:7000;
+	}
+	
+	.loadMsg
+	{
+		width:500px;
+		position:fixed;
+		margin-left:-250px;
+		bottom:3px;
+		left:50%;
+		z-index:7000;
+		text-align : center;
+		color:#fff;
+		font-weight:bold;
+	}
+	
+	#loader
+	{
+		position:fixed;
+		width:100%;
+		height:100%;
+		background:rgba(0,0,0,0.5);
+		margin:0;
+		padding:0;
+		z-index:1000;
+		top:0;
+		left:0;
+	}

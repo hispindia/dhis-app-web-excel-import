@@ -1,0 +1,148 @@
+<script type="text/javascript">
+    $(document).on('change', '.btn-file :file', function () {
+        var input = $(this),
+                numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.trigger('fileselect', [numFiles, label]);
+    });
+    $(document).ready(function () {
+        $('.btn-file :file').on('fileselect', function (event, numFiles, label) {
+            var input = $(this).parents('.input-group').find(':text'),
+                    log = numFiles > 1 ? numFiles + ' files selected' : label;
+            if (input.length) {
+                input.val(log);
+            } else {
+                if (log)
+                    alert(log);
+            }
+        });
+    });
+</script>
+
+<div id="leftBar">
+
+    <div class="left-bar-menu" ng-controller="LeftBarMenuController">
+        <ul class="nav nav-pills nav-stacked">
+            <li><a href ng-click="showExcelUpload()">{{'excel_upload'| translate}}</a></li>
+            <li><a href ng-click="showExcelMapping()">{{'excel_mapping'| translate}}</a></li>
+        </ul>
+    </div>
+
+    <!--<d2-ou-search></d2-ou-search>-->
+
+    <div id="orgUnitTree" style="margin-top:20px">
+        <ul>
+        </ul>
+    </div>
+    <img id="ouwt_loader" alt="{{'loading_tree'| translate}}" src="../images/ajax-loader-bar.gif"/><br>
+    <div class="small-horizonal-spacing" ng-if='!treeLoaded'>
+        {{'loading_tree'| translate}}
+    </div>
+
+</div>
+
+<div class="page" id="mainPage">
+
+    <div ng-if="!selectedOrgUnit">
+        <img src="../images/ajax-loader-bar.gif" alt="{{'in_progress'| translate}}" ng-if="!selectedOrgUnit"/><br>
+        {{'loading_metadata'| translate}}
+    </div>    
+
+    <div ng-show="selectedOrgUnit">
+
+        <!-- top bar begins -->
+        <div class="row heading-title">        
+            <div class="col-sm-12">            
+                {{showExcelUploadMenu ? 'excel_upload' : 'excel_mapping'| translate}}  
+            </div>
+        </div>
+        <!-- top bar ends -->
+
+        <!-- selection begins-->
+        <div class="col-sm-6 inputCriteria vertical-spacing">
+            <form role="form">
+                <div class="form-group">
+                    <label for="dataSetId">{{'data_set'| translate}}</label>
+                    <select class="form-control"
+                            id="dataSetId" 
+                            ng-model="selected.dataSet" 
+                            ng-options="dataSet as dataSet.name for dataSet in dataSets | orderBy: 'name'" 
+                            ng-change="getDataSetDetails()">
+                        <option value="">{{'please_select'| translate}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="orgUnit">{{'org_unit'| translate}}</label>
+                    <input type="text" id="orgUnit" class="form-control" selected-org-unit ng-model="selectedOrgUnit.name" value="{{selectedOrgUnit.name|| 'please_select'| translate}}" ng-disabled="true"></td>
+                </div>
+
+                <div class="form-group" ng-if="showExcelUploadMenu">
+                    <label for="periodId">{{'period'| translate}}</label>
+                    <select class="form-control"
+                            id="periodId" 
+                            ng-model="selected.period" 
+                            ng-options="period as period.name for period in periods" 
+                            ng-change="getMapping()"
+                            ng-disabled="!selected.dataSet">
+                        <option value="">{{'please_select'| translate}}</option>
+                    </select>
+                </div>
+                <div class="form-group" ng-if="showExcelUploadMenu">
+                    <label>{{'mapping_template'| translate}}</label><br>                    
+                    <select class="form-control"
+                            id="templateId" 
+                            ng-model="selected.template" 
+                            ng-options="template as template.name for template in templates" 
+                            ng-disabled="!selected.dataSet">
+                        <option value="">{{'please_select'| translate}}</option>
+                    </select>
+                </div>
+                <div class="form-group" ng-if="showExcelMappingMenu">
+                    <label>{{'rows'| translate}}</label><br>                    
+                    <label class="radio-inline"><input type="radio" name="rowMapping" ng-model="row.model" value="DE">{{'data_elements'| translate}}</label>
+                    <label class="radio-inline"><input type="radio" name="rowMapping" ng-model="row.model" value="OU">{{'org_units'| translate}}</label>
+                </div>
+            </form>            
+            <div class="alert alert-warning" ng-if="!selected.dataSet">{{'select_dataset'| translate}}</div>         
+        </div>
+        <!-- selection ends -->
+
+        <div class="clearfix"></div>
+
+        <!-- excel upload begins -->
+        <div class="row col-sm-12" ng-if="selected.period">
+            <div ng-if="selected.template">
+                <form action="" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-sm-4">                
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <span class="btn btn-info btn-file">
+                                        {{'browse'| translate}} <input type="file" name="excel_file" accept=".xlsx" onchange="angular.element(this).scope().fileChanged(this.files);" required="true">
+                                    </span>
+                                </span>
+                                <input type="text" class="form-control" readonly>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <select id="sheet_name" class="form-control" ng-Change="getSheet()" ng-model="selectedSheetName" required="true" ng-required="true" ng-options="sheetName for sheetName in sheetNames"></select>
+                        </div>            
+                        <div class="col-sm-4">
+                            <button type="button" class="btn btn-primary" ng-click="uploadExcel()" ng-disabled='!selectedSheetName'>{{'upload'| translate}}</button>
+                            <button type="button" class="btn btn-default small-horizonal-spacing" ng-click="cancelUpload()">{{'cancel'| translate}}</button>
+                        </div>
+                    </div>
+                </form>
+                <div ng-if="selectedSheetName">        
+                    <div class="row vertical-spacing col-sm-12" ng-repeat="(sheetName, sheetData) in sheets" ng-if="sheetName === selectedSheetName">              
+                        <div ag-grid="gridOptions" class="ag-fresh" style="width: 90%; height: 500px;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-warning" ng-if="templates.length < 1">{{'no_template'| translate}}</div>
+        </div>
+        <!-- excel upload ends -->
+
+    </div>    
+
+</div>

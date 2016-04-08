@@ -1,0 +1,171 @@
+
+	<!-- MENU BAR -->
+	<div id="logo"></div>
+	<div id="buttonsHolder">
+		<div class="selButton active" onclick = "window.location.assign('#manage-templates')"> Manage Templates </div>
+		<div class="selButton" onclick = "window.location.assign('#data-import')"> Import Data </div>
+		<div class="selButton" onclick = "window.location.assign('#logs')"> Logs and Statistics </div>
+		<div class="selButton" onclick = "window.location.assign('#settings')"> Settings </div>
+	</div>
+	<!-- END OF MENU BAR -->
+	
+	<!-- MAIN CONTENT -->
+	<div id="content">
+		<!-- ADD TEMPLATE FORM -->
+		<div id="addTemplate">
+			<div class="contentPart" style="height:620px;margin-top:-50px">
+				<h3 style="margin-top:-20px;width:100%;text-align:center;color:#222;font-weight:bold"> Add New Template </h3>
+				<div class="form-group input-group">
+					<span class="input-group-addon" style='font-size:12px' >Name</span>
+					<input class="form-control am" id="tempName"/>
+				</div>
+				
+				<div class="form-group input-group forMouMde">
+					<span class="input-group-addon" style='font-size:12px'>Rows</span>
+					<select class="form-control am" id="rowData">
+						<option value="d"> Data Elements </option>
+						<option value="o"> Organisation Units </option>
+					</select>
+				</div>
+				
+				<div class="form-group input-group forSouMde">
+					<span class="input-group-addon" style='font-size:12px'>Organisation Unit Cell</span>
+					<input class="form-control am" id="orgCellRow" type="number" placeholder="Row Number" style="border-radius:0 5px 5px 0;margin-bottom:5px"/>
+					<input class="form-control am" id="orgCellCol" type="number" placeholder="Column Number"/>
+				</div>
+				
+				<div class="form-group input-group forSouMde">
+					<span class="input-group-addon" style='font-size:12px'>Data Starting Cell</span>
+					<input class="form-control am" id="dStartCellRow" type="number" placeholder="Row Number" style="border-radius:0 5px 5px 0;margin-bottom:5px"/>
+					<input class="form-control am" id="dStartCellCol" type="number" placeholder="Column Number"/>
+				</div>
+				
+				<div class="form-group input-group forSouMde">
+					<span class="input-group-addon" style='font-size:12px'>Data Ending Cell</span>
+					<input class="form-control am" id="dEndCellRow" type="number" placeholder="Row Number" style="border-radius:0 5px 5px 0;margin-bottom:5px"/>
+					<input class="form-control am" id="dEndCellCol" type="number" placeholder="Column Number"/>
+				</div>
+				
+				<div class="form-group input-group forMouMde">
+					<span class="input-group-addon" style='font-size:12px'>Row Starting Cell</span>
+					<input class="form-control am" id="rowStartRNum" type="number" placeholder="Row Number" style="border-radius:0 5px 5px 0;margin-bottom:5px"/>
+					<input class="form-control am" id="rowStartCNum" ng-model="rsn"  value="{{rsn}}" type="number" placeholder="Column Number"/>
+				</div>
+				
+				<div class="form-group input-group forMouMde">
+					<span class="input-group-addon" style='font-size:12px'>Row Ending Cell</span>
+					<input class="form-control am"  id="rowEndRNum" type="number" placeholder="Row Number" style="border-radius:0 5px 5px 0;margin-bottom:5px"/>
+					<input class="form-control am"  id="rowEndCNum" ng-model="rsn" value="{{rsn}}" type="number" placeholder="Column Number"/>
+				</div>
+				
+				<div class="form-group input-group forMouMde">
+					<span class="input-group-addon" style='font-size:12px'>Column Starting Cell</span>
+					<input class="form-control am"  id="columnStartRNum"  ng-model="csn"  value="{{csn}}" type="number" placeholder="Row Number" style="border-radius:0 5px 5px 0;margin-bottom:5px"/>
+					<input class="form-control am"  id="columnStartCNum" type="number" placeholder="Column Number"/>
+				</div>
+				
+				<div class="form-group input-group forMouMde">
+					<span class="input-group-addon" style='font-size:12px'>Column Ending Cell</span>
+					<input class="form-control am"  id="columnEndRNum"  ng-model="csn"  value="{{csn}}" type="number" placeholder="Row Number" style="border-radius:0 5px 5px 0;margin-bottom:5px"/>
+					<input class="form-control am"  id="columnEndCNum" type="number" placeholder="Column Number"/>
+				</div>
+				
+				<div class="form-group input-group">
+					<span class="input-group-addon" style='font-size:12px'>Template Format</span>
+					<input class="form-control btn-file am" id="tempImport" type="file" accept=".xls,.xlsx"/>
+				</div>
+				
+				</br>
+				
+				<button type="button" class="btn btn-success" ng-click="continueAdd()" style="width:100px;float:right">Continue</button>
+				<a href="components/add_template/sample.xlsx" class="btn btn-info" style="width:100px; float:left" title="Download a sample template with labels">Help</a>
+				<button type="button" class="btn btn-danger" onclick = "window.location.assign('#manage-templates')" style="width:100px;float:right;margin-right:10px">Cancel</button>
+				
+			</div>
+		</div>
+		</br></br>
+		</br></br>
+		<!-- END OF ADD TEMPLATE FORM -->
+	</div>
+	<!-- END OF MAIN CONTENT -->
+	
+	<!-- CUSTOM MODEL FOR MAPPING -->
+	<div id="mapElements" class="ml" style="display:none"> 
+		<div id="hd1" class="mheader col-md-10 col-md-offset-1">
+		  <h4 class="modal-title" id="headTitle">Map Data Elements</h4>
+		</div>		
+		<div id="bd1" class="mbody col-md-10 col-md-offset-1">
+			<div id="coverLoad" class="coverLoad">
+				<image class="loadImage" src="images/loader.gif"/>
+			</div>
+			<div class="coverLoad"></div>
+			<div id="printContent">
+				<table class='table table-bordered table-hover' id="tableContent" style="width:95%; margin: 0 auto;margin-top:10px">				
+				</table>
+			</div>
+		</div>		
+		<div id="ft1"  class="mfooter col-md-10 col-md-offset-1">
+		  <button type="button" id="b1" class="btn btn-success" style="width:100px" ng-click="saveTemplate()">Save</button>
+		  <button type="button" id="b1" class="btn btn-success" style="width:100px;float:left" onclick="goBack()">Back</button>
+		  <button type="button" id="b1" class="btn btn-danger"  style="width:100px"  onclick = "window.location.assign('#manage-templates')">Cancel</button>
+		</div>
+	</div>
+	<!-- END OF CUSTOM MODEL FOR MAPPING -->
+	
+	<div id="loader"> <image class="loadImageBig" src="images/loader.gif"/> <h4 class="loadMsg" id = "templateProgress"></h4></div>
+	
+	<div id="footer" > </div>
+	
+	
+		  <script type="text/javascript">
+    var config = {
+      '.chosen-select'           : {},
+      '.chosen-select-deselect'  : {allow_single_deselect:true},
+      '.chosen-select-no-single' : {disable_search_threshold:10},
+      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+  </script>
+
+	
+	<script type="text/javascript">
+		var xlf = document.getElementById('tempImport');
+		
+		if(xlf) 
+			xlf.addEventListener('change', handleFile, false);
+
+		$(document).ready(function(){
+			$("#logo").animate({'left': '0px','margin-left':'50px','width' : '300px','height' : '300px', 'margin-top' : '-270px'});			
+			$("#buttonsHolder").animate	({'width' : '300px','left': '50px','top' : '650px','padding-top' : '20px', 'height' : '280px'});			
+			$(".selButton").animate({'width' : '250px','margin-top' : '10px','margin-bottom' : '20px','box-shadow': '0 0 3px #ccc','height' : '30px','font-size' : '13px', 'padding-top' : '5px'});
+			$("#content").fadeIn();
+
+			$("#logo").click(function(){
+				window.location.assign("#home");
+			});
+		});
+		
+		function addTemp()
+		{
+			$("#tempGrp").hide();
+			$("#addTempOption").show();
+			$("#dataSetSelect").attr("disabled" , "true");
+			$("#orgUnitGroupSelect").attr("disabled" , "true");
+		}
+		
+		function cancelAdd()
+		{
+			$("#addTempOption").hide();
+			$("#tempGrp").show();
+			$("#dataSetSelect").removeAttr("disabled");
+			$("#orgUnitGroupSelect").removeAttr("disabled");
+		}
+		
+		function goBack()
+		{
+			$("#mapElements").hide();
+		}
+	</script>

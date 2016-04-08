@@ -1,0 +1,125 @@
+
+	<div id="logo"></div>
+	<div id="buttonsHolder">
+		<div class="selButton" onclick = "window.location.assign('#manage-templates')"> Manage Templates </div>
+		<div class="selButton" onclick = "window.location.assign('#data-import')"> Import Data </div>
+		<div class="selButton active" onclick = "window.location.assign('#logs')"> Logs and Statistics </div>
+		<div class="selButton" onclick = "window.location.assign('#settings')"> Settings </div>
+	</div>
+	
+	<style>
+		#tblSet tr
+		{
+			cursor : pointer;
+			text-align : center;
+		}
+		
+		#tblSet tr td
+		{
+			margin-top:20px;
+		}
+		
+		.btn
+		{
+			width : 150px;
+		}
+	</style>
+	
+	<div id="content">
+		<table id="tblHis" class="table">
+			<tr>
+				<th> Data Set </th>
+				<th> Period </th>
+				<th> Imported Date </th>
+				<th> Template </th>
+				<th> View </th>
+			</tr>
+		</table>
+	</div>
+	
+	<!--  Status modal -->
+	<div id="stModal" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title" id="sth">Data Count</h4>
+		  </div>
+		  <div class="modal-body" style="max-height:300px;overflow-y:auto" id="stb">
+			<table class="table">
+				<tr class="success"><td> Imported </td><td id="imct"></td></tr>
+				<tr class="info"><td> Updated </td><td id="upc"></td></tr>
+				<tr class="danger"><td> Ignored </td><td id="igc"></td></tr>
+			</table>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-info"  style="width:100px" data-dismiss="modal">Close</button>
+		  </div>
+		</div>
+
+	  </div>
+	</div>
+	
+	<!-- Conflict Modal -->
+	<div id="conflictModal" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">Conflicts</h4>
+		  </div>
+		  <div class="modal-body" id="confBdy" style="padding-left:60px">
+		  
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+		  </div>
+		</div>
+
+	  </div>
+	</div>
+	
+	<div id="loader"> <image class="loadImageBig" src="images/loader.gif"/> <h4 class="loadMsg" id = "templateProgress"></h4></div>
+	
+	<div id="footer" > </div>
+	
+	
+<script type="text/javascript">
+    var config = {
+      '.chosen-select'           : {},
+      '.chosen-select-deselect'  : {allow_single_deselect:true},
+      '.chosen-select-no-single' : {disable_search_threshold:10},
+      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+  </script>
+  
+  <script type="text/javascript">
+		$(document).ready(function(){
+			$("#logo").animate({'left': '0px','margin-left':'50px','width' : '300px','height' : '300px', 'margin-top' : '-270px'});			
+			$("#buttonsHolder").animate	({'width' : '300px','left': '50px','top' : '650px','padding-top' : '20px', 'height' : '280px'});			
+			$(".selButton").animate({'width' : '250px','margin-top' : '10px','margin-bottom' : '20px','box-shadow': '0 0 3px #ccc','height' : '30px','font-size' : '13px', 'padding-top' : '5px'});
+			$("#content").fadeIn();
+
+			$("#logo").click(function(){
+				window.location.assign("#home");
+			});
+		});
+		
+		function viewMessage(i)
+		{
+			$("#tblHis").scope().viewMessage(i);
+		}
+		
+		function viewStats(i)
+		{
+			$("#tblHis").scope().viewStats(i);
+		}
+	</script>

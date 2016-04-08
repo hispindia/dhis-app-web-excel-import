@@ -1,0 +1,88 @@
+
+	<!-- MENU BAR -->
+	<div id="logo"></div>
+	<div id="buttonsHolder">
+		<div class="selButton" onclick = "window.location.assign('#manage-templates')"> Manage Templates </div>
+		<div class="selButton" onclick = "window.location.assign('#data-import')"> Import Data </div>
+		<div class="selButton" onclick = "window.location.assign('#logs')"> Logs and Statistics </div>
+		<div class="selButton active" onclick = "window.location.assign('#settings')"> Settings </div>
+	</div>
+	<!-- END OF MENU BAR -->
+	
+	<!-- MAIN CONTENT -->
+	<div id="content">
+		<!-- ORG UNIT DIV - SELECTION -->
+		<div  id = "orgDiv">
+		
+			<div class="contentPart" style="height:400px;">	
+				<h3 style="margin-top:-10px;width:100%;text-align:center"> Organisation Units Mapping </h3> </br>
+				<div  ng-click="printLabels()" id="orgUnitTree" style="margin-top:5px;border:none;height:200px;background:#fff;padding:10px;border-radius:5px;margin:0 auto;display:inline-block">
+					<ul>
+					</ul>
+				</div>
+				<input type="hidden" id="selOrgId" value="{{selectedOrgUnit.id}}"/>
+				<input type="hidden" id="selOrgName" value="{{selectedOrgUnit.name}}"/>
+				
+				<div style="width:250px;display:inline-block;float:right;max-height:200px;overflow-y:auto" selected-org-unit ng-model="selectedOrgUnit">
+					<table class="table" id="lblTbl">
+						
+					</table>			
+				</div>
+				
+				<br><br>
+				<div class="alert alert-danger" id="errMsg" style="display:none;padding:2px 10px;margin:0"></div> </br>
+				<input type="text" class="form-control" style="width:420px;display:inline-block" placeholder="New Label" id="newLabel" />
+				<input type="button" class="btn btn-success" style="width:100px;display:inline-block;float:right" value="Add" ng-click = "addMapping()" />
+				
+				<img id="ouwt_loader" alt="{{'loading_tree'| translate}}" src="../images/ajax-loader-bar.gif"/><br>		
+			</div>
+	
+		</div>
+		<!-- END OF ORG UNIT DIV - SELECTION -->
+	</div>
+	<!-- END OF MAIN CONTENT -->
+	
+	
+	
+	<div id="loader"> <image class="loadImageBig" src="images/loader.gif"/> <h4 class="loadMsg" id = "templateProgress"></h4></div>
+	
+	<div id="footer" > </div>
+	
+	
+		  <script type="text/javascript">
+    var config = {
+      '.chosen-select'           : {},
+      '.chosen-select-deselect'  : {allow_single_deselect:true},
+      '.chosen-select-no-single' : {disable_search_threshold:10},
+      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+  </script>
+
+	
+	<script type="text/javascript">
+		var xlf = document.getElementById('tempImport');
+		if(xlf) xlf.addEventListener('change', handleFile, false);
+		
+		var xld = document.getElementById('dataImport');
+		if(xld) xld.addEventListener('change', handleFile, false);
+
+		$(document).ready(function(){
+			$("#logo").animate({'left': '0px','margin-left':'50px','width' : '300px','height' : '300px', 'margin-top' : '-270px'});			
+			$("#buttonsHolder").animate	({'width' : '300px','left': '50px','top' : '650px','padding-top' : '20px', 'height' : '280px'});			
+			$(".selButton").animate({'width' : '250px','margin-top' : '10px','margin-bottom' : '20px','box-shadow': '0 0 3px #ccc','height' : '30px','font-size' : '13px', 'padding-top' : '5px'});
+			$("#content").fadeIn();
+
+			$("#logo").click(function(){
+				window.location.assign("#home");
+			});
+		});
+		
+		function removeLabel( label )
+		{
+			$('#lblTbl').scope().removeLabel(label);
+		}
+	</script>

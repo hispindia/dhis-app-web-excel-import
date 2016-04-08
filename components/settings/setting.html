@@ -1,0 +1,72 @@
+
+	<div id="logo"></div>
+	<div id="buttonsHolder">
+		<div class="selButton" onclick = "window.location.assign('#manage-templates')"> Manage Templates </div>
+		<div class="selButton" onclick = "window.location.assign('#data-import')"> Import Data </div>
+		<div class="selButton" onclick = "window.location.assign('#logs')"> Logs and Statistics </div>
+		<div class="selButton active" onclick = "window.location.assign('#settings')"> Settings </div>
+	</div>
+	
+	<style>
+		#tblSet tr
+		{
+			cursor : pointer;
+			text-align : center;
+		}
+		
+		#tblSet tr td
+		{
+			margin-top:20px;
+		}
+		
+		.btn
+		{
+			width : 150px;
+		}
+	</style>
+	
+	<div id="content">
+		<table id="tblSet" class="table">
+			<tr> <td> Map Organisation Units </td> <td> <button  class="btn btn-success"  onclick="window.location.assign('#orgunit_mapping')"> Map</button></td></tr>
+			<tr> <td> Clear All Inport History </td>  <td> <button  class="btn btn-warning"  onclick=""> Clear</button></td></tr>
+			<tr> <td> Reset All </td>  <td> <button  class="btn btn-danger"  onclick=""> Reset</button></td></tr>
+		</table>
+	</div>
+	
+	<div id="loader"> <image class="loadImageBig" src="images/loader.gif"/></div>
+	
+	<div id="footer" > </div>
+	
+	
+		  <script type="text/javascript">
+    var config = {
+      '.chosen-select'           : {},
+      '.chosen-select-deselect'  : {allow_single_deselect:true},
+      '.chosen-select-no-single' : {disable_search_threshold:10},
+      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+  </script>
+
+	
+	<script type="text/javascript">
+		var xlf = document.getElementById('tempImport');
+		if(xlf) xlf.addEventListener('change', handleFile, false);
+		
+		var xld = document.getElementById('dataImport');
+		if(xld) xld.addEventListener('change', handleFile, false);
+
+		$(document).ready(function(){
+			$("#logo").animate({'left': '0px','margin-left':'50px','width' : '300px','height' : '300px', 'margin-top' : '-270px'});			
+			$("#buttonsHolder").animate	({'width' : '300px','left': '50px','top' : '650px','padding-top' : '20px', 'height' : '280px'});			
+			$(".selButton").animate({'width' : '250px','margin-top' : '10px','margin-bottom' : '20px','box-shadow': '0 0 3px #ccc','height' : '30px','font-size' : '13px', 'padding-top' : '5px'});
+			$("#content").fadeIn();
+
+			$("#logo").click(function(){
+				window.location.assign("#home");
+			});
+		});
+	</script>
