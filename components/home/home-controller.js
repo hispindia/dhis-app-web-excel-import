@@ -11,7 +11,15 @@ excelUpload.controller('HomeController',function($scope) {
 		window.location.assign("#data-import");
 	};
 	
+	$scope.logsAction =  function(){
+		window.location.assign("#logs");
+	};
+
 	$scope.settingAction =  function(){
 		window.location.assign("#settings");
+	};
+
+	$scope.facilitywiseAction =  function(){
+		window.location.assign("#facilitywise");
 	};
 });

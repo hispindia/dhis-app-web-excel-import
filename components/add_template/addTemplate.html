@@ -2,8 +2,9 @@
 	<!-- MENU BAR -->
 	<div id="logo"></div>
 	<div id="buttonsHolder">
-		<div class="selButton active" onclick = "window.location.assign('#manage-templates')"> Manage Templates </div>
+		<div class="selButton active" onclick = "location.reload()"> Manage Templates </div>
 		<div class="selButton" onclick = "window.location.assign('#data-import')"> Import Data </div>
+		<div class="selButton" onclick = "window.location.assign('#facilitywise')"> Import Facility-wise </div>
 		<div class="selButton" onclick = "window.location.assign('#logs')"> Logs and Statistics </div>
 		<div class="selButton" onclick = "window.location.assign('#settings')"> Settings </div>
 	</div>
@@ -133,9 +134,12 @@
 	
 	<script type="text/javascript">
 		var xlf = document.getElementById('tempImport');
+
+		var callbackk = function(){};
 		
-		if(xlf) 
-			xlf.addEventListener('change', handleFile, false);
+		if(xlf)
+			xlf.addEventListener('change',function(e){var callbackFunc = function(){};handleFile(e,callbackFunc);},false);
+
 
 		$(document).ready(function(){
 			$("#logo").animate({'left': '0px','margin-left':'50px','width' : '300px','height' : '300px', 'margin-top' : '-270px'});			

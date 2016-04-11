@@ -48,6 +48,9 @@ var excelUpload = angular.module('excelUpload',
     }).when('/logs', {
         templateUrl: 'components/log/log.html',
         controller: 'LogController'
+    }).when('/facilitywise', {
+        templateUrl: 'components/import_facilitywise/import_facilitywise.html',
+        controller: 'ImportFacilitywiseController'
     }).otherwise({
         redirectTo: '/home'
     });

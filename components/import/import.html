@@ -2,7 +2,8 @@
 	<div id="logo"></div>
 	<div id="buttonsHolder">
 		<div class="selButton" onclick = "window.location.assign('#manage-templates')"> Manage Templates </div>
-		<div class="selButton active" onclick = "window.location.assign('#data-import')"> Import Data </div>
+		<div class="selButton active" onclick = "location.reload()"> Import Data </div>
+		<div class="selButton" onclick = "window.location.assign('#facilitywise')"> Import Facility-wise </div>
 		<div class="selButton" onclick = "window.location.assign('#logs')"> Logs and Statistics </div>
 		<div class="selButton" onclick = "window.location.assign('#settings')"> Settings </div>
 	</div>
@@ -16,7 +17,18 @@
 						<option value="all">All</option>
 					</select>
 				</div>
-				
+
+				<!-- -------------------- *** -------------------- -->
+
+				<div class="form-group input-group">
+					<span class="input-group-addon" style='font-size:12px'>Facility</span>
+					<select class="form-control" style='width:347px;font-size:12px' id="imOrgUnit" readonly>
+						<option value=""></option>
+					</select>
+				</div>
+
+				<!-- ------------------- /*** -------------------- -->
+
 				<div class="form-group input-group">
 					<span class="input-group-addon" style='font-size:12px'>Data Set</span>
 					<select class="form-control" style='width:347px;font-size:12px' id="imDataSetId" onchange="changeSelection()">
@@ -114,7 +126,7 @@
 	  </div>
 	</div>
 	
-		  <script type="text/javascript">
+	<script type="text/javascript">
     var config = {
       '.chosen-select'           : {},
       '.chosen-select-deselect'  : {allow_single_deselect:true},
@@ -145,6 +157,10 @@
 		
 		function changeSelection()
 		{
+			$('#imOrgUnit').scope().setFacilities(); <!-- *** -->
+			$("#imOrgUnit").removeAttr("readonly"); <!-- *** -->
+			$("#imOrgUnit").removeClass("disabled"); <!-- *** -->
+
 			if( $("#imDataSetId").val() != "-1" )
 			{
 				$('#importPeriod').scope().generatePeriods();				
@@ -158,6 +174,8 @@
 				$("#importPeriod").attr("readonly" , "true");
 				$("#templatesDiv").addClass("disabled");
 			}
+
+
 		}
 		
 		function changeFile(e)

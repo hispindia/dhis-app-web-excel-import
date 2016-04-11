@@ -1,0 +1,348 @@
+
+<div id="logo"></div>
+<div id="buttonsHolder">
+	<div class="selButton" onclick = "window.location.assign('#manage-templates')"> Manage Templates </div>
+	<div class="selButton" onclick = "window.location.assign('#data-import')"> Import Data </div>
+	<div class="selButton active" onclick = "location.reload()"> Import Facility-wise </div>
+	<div class="selButton" onclick = "window.location.assign('#logs')"> Logs and Statistics </div>
+	<div class="selButton" onclick = "window.location.assign('#settings')"> Settings </div>
+</div>
+
+<div id="content" style="left:420px;width:910px;margin-top:-275px">
+	<div  id="manageTempDiv" style="display:inline-block">
+
+		<div id="form1" class="contentPart" style="height:360px;width:600px;margin-right:10px;margin-bottom:10px;padding-top:20px;padding-left:30px;display:inline-block">
+			<div class="form-group input-group">
+				<span class="input-group-addon" style='font-size:12px'>Organisation Unit Group</span>
+				<select class="form-control" style='width:347px;font-size:12px' id="imOrgUnitGrp" onchange="changeSelection()">
+<!--						<option value="all">All</option> -->
+				</select>
+			</div>
+
+
+			<!-- -------------------- *** -------------------- -->
+			<div class="form-group input-group">
+				<span class="input-group-addon" style='font-size:12px'>Facility</span>
+				<div selected-org-unit ng-click="printLabels()" id="orgUnitTree" style="margin-top:5px;margin-bottom:50px;border:none;height:175px;background:#fff;padding:10px;border-radius:5px;margin:0 auto;display: inline-block;">
+					<ul>
+					</ul>
+				</div>
+			</div>
+
+			<!--
+			<div class="form-group input-group">
+				<span class="input-group-addon" style='font-size:12px'>Facility</span>
+				<select class="form-control" style='width:347px;font-size:12px' id="imOrgUnit" readonly>
+					<option value=""></option>
+				</select>
+			</div>
+			-->
+
+			<!-- ------------------- /*** -------------------- -->
+
+			<div class="form-group input-group">
+				<span class="input-group-addon" style='font-size:12px'>Data Set</span>
+				<select class="form-control" style='width:347px;font-size:12px' id="imDataSetId" onchange="changeSelection()">
+					<option value="-1">{{'please_select'| translate}}</option>
+				</select>
+			</div>
+
+			<div class="form-group input-group">
+				<span class="input-group-addon" style='font-size:12px'>Period</span>
+				<select class="form-control" style='width:347px;font-size:12px' id="importPeriod" readonly>
+					<option value="">{{'please_select'| translate}}</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="contentPart disabled" id="templatesDiv" style="text-align:center; height:180px;width:600px;padding-left:30px">
+			<div id="templatesContentDiv">
+				<div class="form-group input-group">
+						<span class="input-group-addon" style='font-size:12px'>Template</span>
+						<select class="form-control" style='width:347px;font-size:12px' id="importTemp">
+							<option value="">{{'please_select'| translate}}</option>
+						</select>
+					</div>
+<!--
+					<div class="form-group input-group">
+						<span class="input-group-addon" style='font-size:12px'>Data Sheet</span>
+						<input class="form-control btn-file" style='width:347px;font-size:12px' id="dataImport" type="file" accept=".xls,.xlsx"/>
+					</div>
+-->
+					<div class="form-group input-group">
+						<span class="input-group-addon" style='font-size:12px'>Empty Data Cells</span>
+						<select class="form-control" style='width:347px;font-size:12px' id="importEmpty">
+							<option value="2">Omit</option>
+							<option value="1">Take as zero</option>
+						</select>
+					</div>
+			</div>
+
+			<input type="button" class="btn btn-danger disabled" onclick="window.location.assign('#home')" value="Cancel" id="ima" style="float:right;width:100px; margin-left:5px" />
+
+<!--			<input type="button" class="btn btn-success disabled" ng-click="confirmUpload()" value="Confirm" id="confirmBtn" style="float:right;width:100px; margin-left:5px" /> -->
+<!--			<input type="button" class="btn btn-success disabled" ng-click="validateUploads()" value="Validate Again" id="imc" style="float:right;width:150px; margin-left:5px;display:none" /> -->
+
+
+
+			<input type="button" class="btn btn-danger disabled" onclick="removeBrowseFilesDiv()" value="Back" id="cancelBtn" style="float:right;width:100px; margin-left:5px" />
+			<input type="button" class="btn btn-success" onclick="generateOrgUnits()" value="Next" id="nextBtn" style="float:right;width:100px; margin-left:5px" />
+			<input type="button" class="btn btn-success disabled" ng-click="validateUploads()" value="Validate" id="imb" style="float:right;width:100px; margin-left:5px" />
+			<input type="button" class="btn btn-info" ng-click="importUploads()" value="Import"  id="ime" style="float:right;width:100px; margin-left:5px" />
+			<input type="button" class="btn btn-warning" ng-click="viewConflicts()" value="Conflicts"  id="imd" style="float:right;width:100px; margin-left:5px;display:none" />
+		</div>
+	</div>
+
+	<div id="confirmedUploadsDiv" class="contentPart" style="display:none;float:right">
+		<table class="table" id="confirmedUploadsContent">
+
+		</table>
+	</div>
+
+</div>
+
+<div id="loader"> <image class="loadImageBig" src="images/loader.gif"/> <h4 class="loadMsg" id = "templateProgress"></h4></div>
+
+<div id="footer" > </div>
+
+<!-- Conflict Modal -->
+<div id="conflictModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Conflicts</h4>
+			</div>
+			<div class="modal-body" id="confBdy" style="padding-left:60px">
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!--  Status modal -->
+<div id="stModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title" id="sth">Data Count</h4>
+			</div>
+			<div class="modal-body" style="max-height:300px;overflow-y:auto" id="stb">
+				<table class="table">
+					<tr class="success"><td> Imported </td><td id="imct"></td></tr>
+					<tr class="info"><td> Updated </td><td id="upc"></td></tr>
+					<tr class="danger"><td> Ignored </td><td id="igc"></td></tr>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-info"  style="width:100px" onclick="window.location.reload()">Ok</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<script type="text/javascript">
+	var config = {
+		'.chosen-select'           : {},
+		'.chosen-select-deselect'  : {allow_single_deselect:true},
+		'.chosen-select-no-single' : {disable_search_threshold:10},
+		'.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+		'.chosen-select-width'     : {width:"95%"}
+	}
+	for (var selector in config) {
+		$(selector).chosen(config[selector]);
+	}
+</script>
+
+
+<script type="text/javascript">
+//	var xld = document.getElementById('dataImport');
+//	if(xld) xld.addEventListener('change', changeFile, false);
+
+	$(document).ready(function(){
+		$("#ima").hide();
+		$("#imb").hide();
+		$("#imd").hide();
+		$("#ime").hide();
+
+		$("#logo").animate({'left': '0px','margin-left':'50px','width' : '300px','height' : '300px', 'margin-top' : '-270px'});
+		$("#buttonsHolder").animate	({'width' : '300px','left': '50px','top' : '650px','padding-top' : '20px', 'height' : '280px'});
+		$(".selButton").animate({'width' : '250px','margin-top' : '10px','margin-bottom' : '20px','box-shadow': '0 0 3px #ccc','height' : '30px','font-size' : '13px', 'padding-top' : '5px'});
+		$("#content").fadeIn();
+
+		$("#logo").click(function(){
+			window.location.assign("#home");
+		});
+	});
+
+	function changeSelection()
+	{
+//		$('#imOrgUnit').scope().setFacilities(); <!-- *** -->
+//		$("#imOrgUnit").removeAttr("readonly"); <!-- *** -->
+//		$("#imOrgUnit").removeClass("disabled"); <!-- *** -->
+
+		if( $("#imDataSetId").val() != "-1" )
+		{
+			$('#importPeriod').scope().generatePeriods();
+			$("#importPeriod").removeAttr("readonly");
+			$("#templatesDiv").removeClass("disabled");
+		}
+		else
+		{
+			$("#importPeriod").removeAttr("readonly");
+			$("#templatesDiv").removeClass("disabled");
+			$("#importPeriod").attr("readonly" , "true");
+			$("#templatesDiv").addClass("disabled");
+		}
+
+
+	}
+/* use handleInputFile(e) instead
+	function changeFile(e)
+	{
+
+		if( $("#dataImport").val() != "" )
+		{
+			handleFile(e);
+			$("#ima").removeClass("disabled");
+			$("#imb").removeClass("disabled");
+
+			$("#confirmBtn").removeClass("disabled");
+
+			$("#imc").hide();
+			$("#imd").hide();
+			$("#ime").hide();
+			$("#imb").show();
+
+			$("#confirmBtn").show();
+		}
+		else
+		{
+			$("#ima").removeClass("disabled");
+			$("#imb").removeClass("disabled");
+			$("#ima").addClass("disabled");
+			$("#imb").addClass("disabled");
+			$("#imc").hide();
+			$("#imd").hide();
+			$("#ime").hide();
+			$("#imb").show();
+		}
+	}
+*/
+/* selecting orgUnits using orgUnitTree is changed to only select parent unit from tree
+		and dynamically generate all child units belongs to selected group...
+
+	function removeUploadItem(orgUnitName){
+		//alert("");
+		//fruits.indexOf("Apple", 4);
+		$('#confirmedUploadsContent').scope().removeUploadItem(orgUnitName);
+
+	}
+*/
+	function handleInputFile(e, ou){
+
+
+		var orgUnit = {};
+
+		var callback = function(){
+			var exist = false;
+			$('#confirmedUploadsContent').scope().confirmedUploads.orgUnits.forEach(function(orgUnitDetails){
+
+				if(ou.id == orgUnitDetails.id){
+					orgUnitDetails.result = resultArray[2];
+					exist = true;
+				}
+
+			});
+
+			if(!exist){
+
+				orgUnit.id = ou.id;
+				orgUnit.name = ou.name;
+				orgUnit.result = resultArray[2];
+
+				$('#confirmedUploadsContent').scope().confirmedUploads.orgUnits.push(orgUnit);
+				//			console.log("result result : " + orgUnit.result);
+			}
+
+			$('#'+ou.id+'').css('border','1px solid #5EB85E');
+			$("#imb").removeClass("disabled");
+
+		};
+
+
+		handleFile(e, callback);
+
+		//handleFile(e);
+
+	}
+
+	function generateOrgUnits(){
+
+		$("#loader").fadeIn();
+		$("#templateProgress").html("loading organisation units");
+		//var noOfOrgUnits = 0;
+		//noOfOrgUnits = $('#confirmedUploadsContent').scope().filterOrgUnits();
+
+		$('#confirmedUploadsContent').scope().confirmedUploads.length = 0;
+
+		$('#confirmedUploadsContent').scope().confirmedUploads.orgUnitGrpVal = $("#imOrgUnitGrp").val();
+//				confirmedItem.orgUnitVal = $("#imOrgUnit").val();
+//confirmedUploads.orgUnitVal = $scope.selectedOrgUnit.id;
+		$('#confirmedUploadsContent').scope().confirmedUploads.dataSetVal = $("#imDataSetId").val();
+		$('#confirmedUploadsContent').scope().confirmedUploads.periodVal = $("#importPeriod").val();
+		$('#confirmedUploadsContent').scope().confirmedUploads.TempVal = $("#importTemp").val();
+		$('#confirmedUploadsContent').scope().confirmedUploads.importEmptyVal = $("#importEmpty").val();
+
+		$('#confirmedUploadsContent').scope().confirmedUploads.orgUnitGrpName = $('#imOrgUnitGrp option:selected').text();
+//confirmedItem.orgUnitName = $('#imOrgUnit option:selected').text();
+//confirmedUploads.orgUnitName = $scope.selectedOrgUnit.name;
+		$('#confirmedUploadsContent').scope().confirmedUploads.dataSetName = $('#imDataSetId option:selected').text();
+		$('#confirmedUploadsContent').scope().confirmedUploads.periodName = $('#importPeriod option:selected').text();
+		$('#confirmedUploadsContent').scope().confirmedUploads.TempName = $('#importTemp option:selected').text();
+
+		$('#confirmedUploadsContent').scope().confirmedUploads.orgUnits = [];
+		//confirmedUploads.result = resultArray[2];
+
+		$('#confirmedUploadsContent').scope().filterOrgUnits();
+
+		//console.log("noOfOrgUnits ww: " + $('#confirmedUploadsContent').scope().filterOrgUnits());
+/*
+		for( var i = 0; i <2; i++ ){
+console.log("done");
+			var elementID = "orgUnit-"+i+"-file";
+			var fileID = document.getElementById(elementID);
+			if(fileID) fileID.addEventListener('change', handleInputFile, false);
+
+		}
+*/
+
+	}
+
+	function removeBrowseFilesDiv(){
+
+		//alert("");
+		//fruits.indexOf("Apple", 4);
+		$("#confirmedUploadsDiv").attr("style","display:none;float:right");
+		$("#form1").removeClass("disabled");
+		$("#templatesContentDiv").removeClass("disabled");
+		$("#cancelBtn").addClass("disabled");
+		$("#imb").addClass("disabled");
+		$("#imb").hide();
+		$("#imd").hide();
+		$("#ime").hide();
+		$("#nextBtn").show();
+
+	}
+
+</script>

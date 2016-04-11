@@ -32,6 +32,7 @@ function fixdata(data) {
 	var o = "", l = 0, w = 10240;
 	for(; l<data.byteLength/w; ++l) o+=String.fromCharCode.apply(null,new Uint8Array(data.slice(l*w,l*w+w)));
 	o+=String.fromCharCode.apply(null, new Uint8Array(data.slice(l*w)));
+
 	return o;
 }
 
@@ -93,7 +94,8 @@ function get_radio_value( radioName ) {
 	}
 }
 
-var resultArray = [];
+
+var resultArray;
 
 function to_formulae(workbook) {
 	var result = [];
@@ -105,9 +107,12 @@ function to_formulae(workbook) {
 			result.push(formulae);
 		}
 	});
-	console.log(result);
+
 	resultArray = result;
-	return result.join("\n");
+
+
+	//return result.join("\n");
+	return resultArray;
 }
 
 function process_wb(wb) {
@@ -124,16 +129,21 @@ function process_wb(wb) {
 	} */
 	
 	output = to_formulae(wb);
+	return output;
 }
 
-function handleFile(e) {
+function handleFile(e, callback) {
+
 	rABS = false; //document.getElementsByName("userabs")[0].checked;
 	use_worker = false; //document.getElementsByName("useworker")[0].checked;
 	var files = e.target.files;
+
 	var f = files[0];
 	{
 		var reader = new FileReader();
 		var name = f.name;
+
+
 		reader.onload = function(e) {
 			//if(typeof console !== 'undefined') console.log("onload", new Date(), rABS, use_worker);
 			var data = e.target.result;
@@ -149,8 +159,11 @@ function handleFile(e) {
 				}
 				process_wb(wb);
 			}
+			callback();
 		};
+
 		if(rABS) reader.readAsBinaryString(f);
 		else reader.readAsArrayBuffer(f);
 	}
+
 }

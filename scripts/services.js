@@ -144,11 +144,11 @@ var excelUploadServices = angular.module('excelUploadServices', ['ngResource'])
 			var promise = $http({ method : 'post', url : url, headers: header, data : dataJSON })
 			.success( function( response )
 			{
-				console.log( response );
+				console.log( "response : "+response );
 			})
 			.error( function( response )
 			{
-				console.log( response );
+				console.log( "response : " + response );
 				console.log( "Internal Error : " + response.description);
 			});
             return promise;

@@ -15,8 +15,8 @@ excelUpload.controller('ImportController',
                 orderByFilter,
                 OrgUnitService,
                 DialogService) {
-    
-    $scope.orgUnitGroups = {};
+
+  $scope.orgUnitGroups = {};
 	$scope.dataSets = {};
 	$scope.templates = {};
 	$scope.orgUnitMapping = {};
@@ -122,6 +122,7 @@ excelUpload.controller('ImportController',
 	//**************************************************************************************************************
  
 	$scope.generatePeriods = function(){
+
 		if( $("#imDataSetId").val() != "" )
 		{
 			var url = "../api/dataSets/" + $("#imDataSetId").val() + ".json?fields=periodType";
@@ -186,6 +187,24 @@ excelUpload.controller('ImportController',
 			
 		}
 	};
+
+	$scope.setFacilities = function(){
+
+console.log("orgUnitGroup id : " + $("#imOrgUnitGrp").val());
+		if( $("#imOrgUnitGrp").val() != "" ){
+			var url = "../api/organisationUnitGroups/" + $("#imOrgUnitGrp").val() + ".json";
+console.log("url : " + url);
+			$.get(url, function(oug){
+				var imOrgUnitHTML = "";
+				$.each( oug.organisationUnits , function( i, ou ){
+					imOrgUnitHTML = imOrgUnitHTML + "<option value='"+ ou.id +"' > " + ou.name +" </option>";
+				});
+				$("#imOrgUnit").html("");
+				$("#imOrgUnit").append(imOrgUnitHTML);
+			});
+
+		}
+	};
 	
 	$scope.monthString = function(pst){
 		var month = pst.substring(4, 6);
@@ -229,11 +248,13 @@ excelUpload.controller('ImportController',
 		$scope.validatedMessage = [];
 		$("#loader").fadeIn();
 		$("#templateProgress").html("Getting data from data sheet");
+
 		
 		resultArray[2].forEach(function(r){
+console.log("r is : " + r);
 			var cell ={};
 			cell.address = r.split("=")[0];
-			
+
 			if( r.split("=").length > 1 )
 				cell.value = r.split("=")[1].slice(1).trim(); //There is an additional char in the value
 			
@@ -469,6 +490,7 @@ excelUpload.controller('ImportController',
 						dataValue.categoryOptionCombo = selectedTemp.DEMappings[x].metadata.split("-")[1];
 						var ouLabel = $scope.getImportData( selectedTemp.orgUnitCell.rn , selectedTemp.orgUnitCell.cn );
 						dataValue.orgUnit = $scope.getOrgUnitByLabel( ouLabel );
+console.log("orgUnit : " + dataValue.orgUnit);
 						dataValue.value = $scope.getImportDataByAddress( cellAddress );
 						
 						if( $("#importEmpty").val() == 2 )
@@ -588,7 +610,7 @@ excelUpload.controller('ImportController',
 				val = c.value;
 		});
 		
-		return(val);
+		return(val); 
 	};
 	
 	$scope.getImportDataByAddress = function( add ){
