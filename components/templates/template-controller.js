@@ -7,6 +7,8 @@ excelUpload.controller('TemplateController',
                 $timeout,
                 $route,
                 $filter,
+                $modal,
+				$log,
                 ExcelMappingService,
                 ValidationRuleService,
                 CurrentSelection,
@@ -21,6 +23,7 @@ excelUpload.controller('TemplateController',
 	$scope.orgUnitGroups = {};
 	$scope.dataSets = {};
 	$scope.templates = {};
+    $scope.selectedTemp = {};
 	
 	//retrieving all the needed things
 	//**************************************************************************************************************
@@ -194,4 +197,49 @@ excelUpload.controller('TemplateController',
 		
 		window.location.assign('#add-template');
 	};
+
+    $scope.showEditTemp = function(){
+
+		/* find index of selected temp */
+		var selectedTempIndex = $scope.templates.templates.findIndex(function(temp,index){
+			if(temp.id == $("#templateSelect").val())
+			{
+				return true;
+			}
+		});
+
+		$scope.selectedTemp = angular.copy($scope.templates.templates[selectedTempIndex]);
+
+        var modalInstance = $modal.open({
+            templateUrl: 'components/edit_template/editTemplate.html',
+            controller: 'EditTemplateController',
+            resolve: {
+                selectedTemp: function() {
+                    return $scope.selectedTemp;
+                }
+            }
+        });
+
+		/* modifications to the templates are saved in here */
+		modalInstance.result.then(function () {
+			console.log("modified");
+			console.log($scope.selectedTemp);
+			$scope.templates.templates[selectedTempIndex] = $scope.selectedTemp;
+
+			ExcelMappingService.save('Excel-import-app-templates',$scope.templates ).then(function(response){
+				console.log(response);
+				if(response.status!="OK"){
+					alert(response.message+ " -- please see console for more info.");
+					$log.error(response);
+					return;
+				}
+				//$modalInstance.close();
+				//location.reload();
+				alert("successfully saved");
+			});
+
+		}, function () {
+			$log.info('Modal dismissed at: ');
+		});
+    };
 });

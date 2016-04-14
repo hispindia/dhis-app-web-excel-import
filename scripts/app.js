@@ -36,6 +36,9 @@ var excelUpload = angular.module('excelUpload',
     }).when('/add-template', {
         templateUrl: 'components/add_template/addTemplate.html',
         controller: 'AddTemplateController'
+    }).when('/edit-template', {
+        templateUrl: 'components/edit_template/editTemplate.html',
+        controller: 'EditTemplateController'
     }).when('/orgunit_mapping', {
         templateUrl: 'components/orgunit_mapping/orgunit_mapping.html',
         controller: 'OrgUnitMappingController'
