@@ -105,13 +105,20 @@ excelUpload.controller('EditTemplateController',
         };
 
         $scope.addNewMapping = function(){
-            $scope.selectedTemp.DEMappings.push({cellAddress:$scope.model.newCellAddress,label:'modified',metadata:$scope.model.newDEwithCOC});
+            switch($scope.selectedTemp.typeId) {
+                case "1":
+                    $scope.selectedTemp.DEMappings.push({rowNumber:$scope.model.mappingID,label:'modified',metadata:$scope.model.newDEwithCOC});
+                    break;
+                case "2":
+                    $scope.selectedTemp.DEMappings.push({cellAddress:$scope.model.mappingID,label:'modified',metadata:$scope.model.newDEwithCOC});
+                    break;
+            }
         };
 
         /* this function close modal instance, actual save function is written in template-controller - showEditTemp() */
         $scope.saveTemp = function () {
             //DEMappings array is sorted by cell address
-            $scope.selectedTemp.DEMappings = $filter('orderBy')($scope.selectedTemp.DEMappings, "cellAddress");
+            $scope.selectedTemp.DEMappings = $filter('orderBy')($scope.selectedTemp.DEMappings, "rowNumber || cellAddress");
             console.log("$$$$");
             console.log($scope.selectedTemp);
 /*
