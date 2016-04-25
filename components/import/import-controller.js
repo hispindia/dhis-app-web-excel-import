@@ -187,24 +187,6 @@ excelUpload.controller('ImportController',
 			
 		}
 	};
-
-	$scope.setFacilities = function(){
-
-console.log("orgUnitGroup id : " + $("#imOrgUnitGrp").val());
-		if( $("#imOrgUnitGrp").val() != "" ){
-			var url = "../api/organisationUnitGroups/" + $("#imOrgUnitGrp").val() + ".json";
-console.log("url : " + url);
-			$.get(url, function(oug){
-				var imOrgUnitHTML = "";
-				$.each( oug.organisationUnits , function( i, ou ){
-					imOrgUnitHTML = imOrgUnitHTML + "<option value='"+ ou.id +"' > " + ou.name +" </option>";
-				});
-				$("#imOrgUnit").html("");
-				$("#imOrgUnit").append(imOrgUnitHTML);
-			});
-
-		}
-	};
 	
 	$scope.monthString = function(pst){
 		var month = pst.substring(4, 6);

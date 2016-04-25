@@ -18,17 +18,6 @@
 					</select>
 				</div>
 
-				<!-- -------------------- *** -------------------- -->
-
-				<div class="form-group input-group">
-					<span class="input-group-addon" style='font-size:12px'>Facility</span>
-					<select class="form-control" style='width:347px;font-size:12px' id="imOrgUnit" readonly>
-						<option value=""></option>
-					</select>
-				</div>
-
-				<!-- ------------------- /*** -------------------- -->
-
 				<div class="form-group input-group">
 					<span class="input-group-addon" style='font-size:12px'>Data Set</span>
 					<select class="form-control" style='width:347px;font-size:12px' id="imDataSetId" onchange="changeSelection()">
@@ -157,10 +146,6 @@
 		
 		function changeSelection()
 		{
-			$('#imOrgUnit').scope().setFacilities(); <!-- *** -->
-			$("#imOrgUnit").removeAttr("readonly"); <!-- *** -->
-			$("#imOrgUnit").removeClass("disabled"); <!-- *** -->
-
 			if( $("#imDataSetId").val() != "-1" )
 			{
 				$('#importPeriod').scope().generatePeriods();				
