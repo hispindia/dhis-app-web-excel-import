@@ -1,0 +1,145 @@
+<!--
+<div class="modal-header">
+    <h3>Edit Template</h3>
+</div>
+-->
+
+<div class="modal-body">
+    <!-- meta data of the template is displayed -->
+    <div id="tempMetaDataPage" ng-if="tempMetaDataPage">
+        <div class="contentPart" style="height:100%">
+            <h3 style="margin-top:-20px;width:100%;text-align:center;color:#222;font-weight:bold"> Edit Template </h3>
+            <div class="form-group input-group">
+                <span class="input-group-addon" style='font-size:12px' >Name</span>
+                <input class="form-control am" id="tempName" ng-model="selectedTemp.name"/>
+            </div>
+
+            <!-- need to be tested -->
+            <div class="form-group input-group forMouMde" ng-if="selectedTemp.typeId==1">
+                <span class="input-group-addon" style='font-size:12px'>Rows</span>
+                <select class="form-control am" id="rowData" ng-model="selectedTemp.rowMetaData">
+                    <option value="d"> Data Elements </option>
+                    <option value="o"> Organisation Units </option>
+                </select>
+            </div>
+
+            <div class="form-group input-group forSouMde" ng-if="selectedTemp.typeId==2">
+                <span class="input-group-addon" style='font-size:12px'>Organisation Unit Cell</span>
+                <input class="form-control am" id="orgCellRow" type="number" placeholder="Row Number" style="border-radius:0 5px 5px 0;margin-bottom:5px" ng-model="selectedTemp.orgUnitCell.rn"/>
+                <input class="form-control am" id="orgCellCol" type="number" placeholder="Column Number" ng-model="selectedTemp.orgUnitCell.cn"/>
+            </div>
+
+            <div class="form-group input-group forSouMde" ng-if="selectedTemp.typeId==2">
+                <span class="input-group-addon" style='font-size:12px'>Data Starting Cell</span>
+                <input class="form-control am" id="dStartCellRow" type="number" placeholder="Row Number" style="border-radius:0 5px 5px 0;margin-bottom:5px" ng-model="selectedTemp.dataStart.rn"/>
+                <input class="form-control am" id="dStartCellCol" type="number" placeholder="Column Number" ng-model="selectedTemp.dataStart.cn"/>
+            </div>
+
+            <div class="form-group input-group forSouMde" ng-if="selectedTemp.typeId==2">
+                <span class="input-group-addon" style='font-size:12px'>Data Ending Cell</span>
+                <input class="form-control am" id="dEndCellRow" type="number" placeholder="Row Number" style="border-radius:0 5px 5px 0;margin-bottom:5px" ng-model="selectedTemp.dataEnd.rn"/>
+                <input class="form-control am" id="dEndCellCol" type="number" placeholder="Column Number" ng-model="selectedTemp.dataEnd.cn"/>
+            </div>
+
+            <div class="form-group input-group forMouMde" ng-if="selectedTemp.typeId==1">
+                <span class="input-group-addon" style='font-size:12px'>Row Starting Cell</span>
+                <input class="form-control am" id="rowStartRNum" type="number" placeholder="Row Number" style="border-radius:0 5px 5px 0;margin-bottom:5px" ng-model="selectedTemp.rowStart.rn"/>
+                <input class="form-control am" id="rowStartCNum" type="number" placeholder="Column Number" ng-model="selectedTemp.rowStart.cn"  value="{{selectedTemp.rowEnd.cn}}"/>
+            </div>
+
+            <div class="form-group input-group forMouMde" ng-if="selectedTemp.typeId==1">
+                <span class="input-group-addon" style='font-size:12px'>Row Ending Cell</span>
+                <input class="form-control am"  id="rowEndRNum" type="number" placeholder="Row Number" style="border-radius:0 5px 5px 0;margin-bottom:5px" ng-model="selectedTemp.rowEnd.rn"/>
+                <input class="form-control am"  id="rowEndCNum" type="number" placeholder="Column Number" ng-model="selectedTemp.rowEnd.cn" value="{{selectedTemp.rowStart.cn}}"/>
+            </div>
+
+            <div class="form-group input-group forMouMde" ng-if="selectedTemp.typeId==1">
+                <span class="input-group-addon" style='font-size:12px'>Column Starting Cell</span>
+                <input class="form-control am"  id="columnStartRNum" type="number" placeholder="Row Number" style="border-radius:0 5px 5px 0;margin-bottom:5px" ng-model="selectedTemp.columnStart.rn"  value="{{selectedTemp.columnEnd.rn}}"/>
+                <input class="form-control am"  id="columnStartCNum" type="number" placeholder="Column Number" ng-model="selectedTemp.columnStart.cn"/>
+            </div>
+
+            <div class="form-group input-group forMouMde" ng-if="selectedTemp.typeId==1">
+                <span class="input-group-addon" style='font-size:12px'>Column Ending Cell</span>
+                <input class="form-control am"  id="columnEndRNum" type="number" placeholder="Row Number" style="border-radius:0 5px 5px 0;margin-bottom:5px" ng-model="selectedTemp.columnEnd.rn"  value="{{selectedTemp.columnStart.rn}}"/>
+                <input class="form-control am"  id="columnEndCNum" type="number" placeholder="Column Number" ng-model="selectedTemp.columnEnd.cn"/>
+            </div>
+
+            <!--
+            <div class="form-group input-group">
+                <span class="input-group-addon" style='font-size:12px'>Template Format</span>
+                <input class="form-control btn-file am" id="tempImport" type="file" accept=".xls,.xlsx"/>
+            </div>
+            -->
+
+        </div>
+    </div>
+
+    <!-- Data Element Mapping of the template is displayed here -->
+    <div id="tempDEMappingPage" style="overflow-y: auto" ng-if="tempDEMappingPage">
+        <table class='table table-bordered table-hover' id="tableContent" style="width:95%; margin: 0 auto;margin-top:10px">
+            <thead ng-if="selectedTemp.typeId==1">
+                <tr>
+                    <th>{{'Row No.'| translate}}</th>
+                    <th>{{'Respective Data Element - COC combination'| translate}}</th>
+                    <th>action</th>
+                </tr>
+            </thead>
+            <thead ng-if="selectedTemp.typeId==2">
+                <tr>
+                    <th>{{'Cell Address'| translate}}</th>
+                    <th>{{'Respective Data Element - COC combination'| translate}}</th>
+                    <th>action</th>
+                </tr>
+            </thead>
+
+            <tbody ng-if="availableOptions.length>1">
+                <tr ng-repeat="item in selectedTemp.DEMappings">
+                    <td>
+                        <input ng-if="selectedTemp.typeId==1" class="form-control am" type="text" placeholder="Row Number" style="border-radius:0 5px 5px 0;margin-bottom:5px" ng-model="item.rowNumber "/>
+                        <input ng-if="selectedTemp.typeId==2" class="form-control am" type="text" placeholder="Cell Address" style="border-radius:0 5px 5px 0;margin-bottom:5px" ng-model="item.cellAddress "/>
+                    </td>
+                    <td>
+                        <select class='form-control' ng-model="item.metadata">
+                            <option ng-repeat="option in availableOptions"
+                                    value="{{option.id}}"
+                                    ng-selected="{{option.id == item.metadata}}">{{option.name}}
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger" ng-click="selectedTemp.DEMappings.splice($index, 1)">-</button>
+                    </td>
+                </tr>
+
+                <!-- add new cell -->
+                <tr>
+                    <td>
+                        <input ng-if="selectedTemp.typeId==1" class="form-control am" type="number" placeholder="Row Number" style="border-radius:0 5px 5px 0;margin-bottom:5px" ng-model="model.mappingID"/>
+                        <input ng-if="selectedTemp.typeId==2" class="form-control am" type="text" placeholder="Cell Address" style="border-radius:0 5px 5px 0;margin-bottom:5px" ng-model="model.mappingID"/>
+                    </td>
+                    <td>
+                        <select class='form-control' ng-model="model.newDEwithCOC">
+                            <option ng-repeat="option in availableOptions"
+                                    value="{{option.id}}">{{option.name}}
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="btn btn-success" ng-click="addNewMapping()" ng-disabled="model.mappingID.length<1||model.newDEwithCOC==-1">+</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="pull-left">
+        <button class="btn btn-primary" ng-click="saveTemp()">{{'Save'| translate}}</button>
+        <button class="btn btn-default" ng-click="cancel()">{{'Cancel'| translate}}</button>
+    </div>
+    <div class="pull-right">
+        <button class="btn btn-success" ng-click="showTempMetaDataPage()" ng-disabled="tempMetaDataPage">{{'<-'| translate}}</button>
+        <button class="btn btn-success" ng-click="showTempDEMappingPage()" ng-disabled="tempDEMappingPage">{{'->'| translate}}</button>
+    </div>
+</div>
